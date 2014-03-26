@@ -23,6 +23,10 @@ import ro.munteanu.insight.domain.VoteManager;
     audiences = {Constants.ANDROID_AUDIENCE}
 )
 public class Greetings {
+  /**
+   * @deprecated Leaving this greetings related code in as an example of what
+   *             you can do with the api.
+   */
   public static ArrayList<HelloGreeting> greetings = new ArrayList<HelloGreeting>();
   public static VoteManager voteManager = new VoteManager();
 
@@ -31,10 +35,18 @@ public class Greetings {
     greetings.add(new HelloGreeting("goodbye world!"));
   }
 
+  /**
+   * @deprecated Leaving this greetings related code in as an example of what
+   *             you can do with the api.
+   */
   public HelloGreeting getGreeting(@Named("id") Integer id) {
     return greetings.get(id);
   }
 
+  /**
+   * @deprecated Leaving this greetings related code in as an example of what
+   *             you can do with the api.
+   */
   @ApiMethod(name = "greetings.multiply", httpMethod = "post")
   public HelloGreeting insertGreeting(@Named("times") Integer times, HelloGreeting greeting) {
     HelloGreeting response = new HelloGreeting();
@@ -46,6 +58,10 @@ public class Greetings {
     return response;
   }
 
+  /**
+   * @deprecated Leaving this greetings related code in as an example of what
+   *             you can do with the api.
+   */
   @ApiMethod(name = "greetings.authed", path = "greeting/authed")
   public HelloGreeting authedGreeting(User user) {
     HelloGreeting response = (user == null) ? new HelloGreeting("You didn't log in!")
@@ -53,22 +69,11 @@ public class Greetings {
     return response;
   }
 
-  // This should at least be concurrent!!
-  public static Map<String, Vote> votes = new HashMap<>();
-
   public void updateVote(User user) {
     voteManager.createVote(new Vote(1, user.getEmail()));
-
-//    if (votes.containsKey(user.getEmail())) {
-//      Vote oldVote = votes.get(user.getEmail());
-//      oldVote.setCount(oldVote.getCount() + 1);
-//    } else {
-//      votes.put(user.getEmail(), new Vote(1, user.getEmail())); 
-//    }
   }
 
   public Collection<Vote> listVote() {
     return voteManager.readVotes();
-    //    return votes.values();
   }
 }

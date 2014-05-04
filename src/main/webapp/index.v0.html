@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+   table,th,td
+   {
+     border:1px solid black;
+     border-collapse:collapse;
+     cellpadding: 5;
+   }
+  </style>
+  <script>
+    window.onload = function() {
+      var request = new XMLHttpRequest();
+      request.open('GET', 'https://munteanu-app.appspot.com/_ah/api/insight/v1/vote');
+      request.onreadystatechange = function() {
+        if (request.readyState === 4 && request.status === 200) {
+          var response = JSON.parse(request.responseText);
+          var contentsTable = document.getElementById('contents');
+
+          for (var i = 0; i < response.items.length; i++) {
+            var row = document.createElement('tr');
+            var voterCell = document.createElement('td');
+            voterCell.innerHTML = response.items[i].voter;
+            row.appendChild(voterCell);
+            var countCell = document.createElement('tr');
+            countCell.innerHTML = response.items[i].count;
+            row.appendChild(countCell);
+            contentsTable.appendChild(row);
+          }
+
+        } else if (request.readyState === 4) {
+          var cell = document.createElement('td');
+          cell.innerHTML = 'Failed to retrieve list of voters';
+          var row = document.createElement('tr');
+          row.appendChild(cell);
+          var contentsTable = document.getElementById('contents');
+          contentsTable.appendChild(row);
+        }
+        document.getElementById('table-spinner').style.display = 'none';
+      };
+      request.send(null);
+    };
+  </script>
+</head>
+<body>
+  <img id="table-spinner" src="ajax-loader.gif"></img>
+  <table id="contents" style="width: 250px;">
+  </table>
+</body>
+</html>
